@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="resources/fontawesome/css/all.min.css">
+        <link rel="stylesheet" href="resources/jQuery/jquery-ui.css">
+        <link rel="stylesheet" href="resources/ol/ol.css">
+        <link rel="stylesheet" href="resources/ol/ol-ext.css">
+        <link rel="stylesheet" href="resources/layerswitcher/ol-layerswitcher.css">
+        <link rel="stylesheet" href="map.css">
+
+        <title>Enerprise GIS Portal</title>
+        <link rel="shortcut icon " href="resources\images\ad.png">
+        <script>
+                if (window.localStorage.getItem('status') != "loggedIn") {
+                        window.location.replace(window.location.href.replace("bsmap.html", "index.html"));
+                }
+        </script>
+</head>
+
+<body>
+        <div class="row main-row ms-0 gx-0 h-100">
+                <div id="left" class="col-2 m-0 p-0 border-end border-3">
+                        <div id="divLayers">
+                                <nav class="navbar bg-opacity-50 ps-2 py-0"><span
+                                                class="text-light navbarSpan">Layers</span>
+                                </nav>
+                                <div id="layerContainer" class="layer-switcher top-0 end-0 position-relative"></div>
+                        </div>
+                </div>
+                <div id="middle" class="col-10 m-0 p-0 border-3">
+                        <div class="row middle-top m-0 p-0 gx-0">
+                                <nav class="navbar  py-0">
+                                        <div class="container-fluid float-start ps-0 pe-0">
+                                                <input id="inpt_search" class="input_search fs-6 p-1" type="text"
+                                                        placeholder="Search...">
+                                                <button id="home" class="btn btn-light btnStyle" type="submit"
+                                                        title="Home">
+                                                        <i class="fa fa-home fa-lg" aria-hidden="true"></i></button>
+                                                <button id="fullScreen" class="btn btn-light btnStyle" type="submit"
+                                                        title="Full Screen">
+                                                        <i class="fa fa-arrows-alt fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="layers" class="btn btn-light btnStyle clicked" type="submit"
+                                                        title="Layers">
+                                                        <i class="fa-solid fa-layer-group fa-lg"></i></button>
+                                                <button id="legends" class="btn btn-light btnStyle" type="submit"
+                                                        title="Legends">
+                                                        <i class="fa-solid fa-list fa-lg"></i></button>
+                                                <button id="addWMS" type="button" class="btn btn-light btnStyle"
+                                                        data-bs-toggle="modal" data-bs-target="#wms_layer_modal"
+                                                        title="Add WMS Layer">
+                                                        <i class="fa fa-square-plus fa-lg" aria-hidden="true"></i>
+                                                </button>
+                                                <!-- <input id="addData" type="file" accept=".kml" class="btn btn-light btnStyle" title="Add Data">
+                                                        <i class="fa-solid fa-plus fa-lg" aria-hidden="true"></i>
+                                                </input> -->
+                                                <button id="pan" class="btn btn-light btnStyle" type="submit"
+                                                        title="Pan">
+                                                        <i class="fa fa-hand-paper fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="zoomIn" class="btn btn-light btnStyle" type="submit"
+                                                        title="Zoom In">
+                                                        <i class="fa fa-search-plus fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="zoomOut" class="btn btn-light btnStyle" type="submit"
+                                                        title="Zoom Out">
+                                                        <i class="fa fa-search-minus fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="measureLength" class="btn btn-light btnStyle" type="submit"
+                                                        title="Measure Length"><i class="fa fa-ruler-horizontal fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="measureArea" class="btn btn-light btnStyle" type="submit"
+                                                        title="Measure Area">
+                                                        <i class="fas fa-ruler-combined fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="downloadMap" class="btn btn-light btnStyle" type="submit"
+                                                        title="Download Map">
+                                                        <i class="fas fa-file-download fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="featureInfo" class="btn btn-light btnStyle" type="submit"
+                                                        title="Feature Info">
+                                                        <i class="fa fa-info fa-lg" aria-hidden="true"></i></button>
+                                                <button id="attributeQuery" class="btn btn-light btnStyle" type="submit"
+                                                        title="Attribute Query">
+                                                        <i class="fas fa-database fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                                <button id="spatialQuery" class="btn btn-light btnStyle" type="submit"
+                                                        title="Spatial Query">
+                                                        <i class="fas fa-map fa-lg" aria-hidden="true"></i></button>
+                                                <button id="startEditing" class="btn btn-light btnStyle" type="submit"
+                                                        title="Start Editing">
+                                                        <i class="fas fa-edit fa-lg" aria-hidden="true"></i></button>
+                                                <div id="editingTools">
+                                                        <button id="addFeature" class="btn btn-light btnStyle"
+                                                                type="submit" title="Add Feature">
+                                                                <i class="fas fa-pen fa-lg"
+                                                                        aria-hidden="true"></i></button>
+                                                        <button id="ModifyFeature" class="btn btn-light btnStyle"
+                                                                type="submit" title="Modify Feature">
+                                                                <i class="fas fa-draw-polygon fa-lg"
+                                                                        aria-hidden="true"></i></button>
+                                                        <button id="DeleteFeature" class="btn btn-light btnStyle"
+                                                                type="submit" title="Delete Feature">
+                                                                <i class="fas fa-eraser fa-lg"
+                                                                        aria-hidden="true"></i></button>
+                                                        <button id="ModifyAttribute" class="btn btn-light btnStyle"
+                                                                type="submit" title="Mddity Attribute">
+                                                                <i class="fas fa-table fa-lg"
+                                                                        aria-hidden="true"></i></button>
+                                                </div>
+
+                                                <button id="settings" class="btn btn-light btnStyle" type="submit"
+                                                        title="Settings">
+                                                        <i class="fas fa-cog fa-lg" aria-hidden="true"></i></button>
+                                                <button id="logout" class="btn btn-light btnStyle" type="submit"
+                                                        title="Logout">
+                                                        <i class="fas fa-power-off fa-lg"
+                                                                aria-hidden="true"></i></button>
+                                        </div>
+                                </nav>
+                        </div>
+                        <div class="row middle-middle m-0 p-0 gx-0">
+                                <div id="map"></div>
+                        </div>
+                        <div id="bottom"
+                                class="row middle-bottom m-0 p-0 border-top border-3 overflow-auto gx-0 bg-white">
+                        </div>
+                </div>
+                <div id="right" class="col-2 m-0 p-0 border-start border-3" style="display: none;">
+                </div>
+        </div>
+        <div class="liveDataDiv shadow mb-5 bg-body rounded bg-light" id="liveDataDiv" style="display: none;">
+                <table id="assetSearchTableID" class="table table-hover table-sm">
+                </table>
+        </div>
+
+        <div id="divLegend" style="display: none;">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="spanLegend"
+                                class="text-light navbarSpan">Legends</span></nav>
+                <div id="divLegendGraphics">
+                </div>
+        </div>
+
+        <div id="divPrint" style="display: none;">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan" class="text-light navbarSpan">Download
+                                Map</span></nav>
+                <div class="container">
+                        <form>
+                                <!-- <div class="form-group">
+                                        <label for="selectOrientation">Orientation</label>
+                                        <select name="selectOrientation" id="selectOrientation" class="form-select">
+                                                <option value="landscape">Landscape</option>
+                                                <option value="portrait">Portrait</option>
+                                        </select>
+                                </div> -->
+                                <div class="form-group">
+                                        <label for="selectPageSize">Page Size</label>
+                                        <select name="selectPageSize" id="selectPageSize" class="form-select">
+                                                <option value="A4">A4 - 210x297 mm</option>
+                                                <option value="A3">A3 - 297x420 mm</option>
+                                                <option value="A2">A2 - 420x594 mm</option>
+                                                <option value="A1">A1 - 594x841 mm</option>
+                                                <option value="A0">A0 - 841x1189 mm</option>
+                                        </select>
+                                </div>
+                                <!-- <div class="form-group">
+                                        <label for="selectFormat">Format</label>
+                                        <select name="selectFormat" id="selectFormat" class="form-select">
+                                                <option value="image/pdf">PDF</option>
+                                                <option value="image/png">PNG</option>
+                                                <option value="image/jpeg">JPEG</option>
+                                        </select>
+                                </div> -->
+                                <div class="container d-flex justify-content-evenly divOKCancel">
+                                        <button type="button" id="btnMapPlot" class="btn btn-primary btn-sm w-50 border-1 border-white">Plot</button>
+                                        <button type="button" id="btnMapPlotCancel"
+                                                class="btn btn-secondary btn-sm w-50 border-1 border-white">Cancel</button>
+                                </div>
+
+                        </form>
+                </div>
+        </div>
+        <div id="featureInfoDiv" style="display: none;">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan" class="text-light navbarSpan">Feature
+                                Info</span></nav>
+                <div id="featureInfoTableDiv">
+                        <table id="featureInfoTable" class="table table-bordered table-hover table-sm border-dark">
+                        </table>
+                </div>
+                <div id="featureInfoFooterDiv"
+                        class="navbar bg-opacity-50 d-flex justify-content-center align-items-center w-100 bottom-0">
+                </div>
+        </div>
+        <div class="attQueryDiv bg-white" id="attQueryDiv">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan" class="text-light navbarSpan">Attribute
+                                Query</span></nav>
+                <div class="container">
+                        <form>
+                                <div class="form-group">
+                                        <label for="selectLayer">Select Layer</label>
+                                        <select name="selectLayer" id="selectLayer" class="form-select">
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                        <label for="selectAttribute">Select Attribute</label>
+                                        <select name="selectAttribute" id="selectAttribute" class="form-select">
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                        <label for="selectOperator">Select Operator</label>
+                                        <select name="selectOperator" id="selectOperator" class="form-select">
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                        <label for="enterValue">Enter Value</label>
+                                        <input type="text" name="enterValue" id="enterValue" class="form-control">
+                                        </select>
+                                </div>
+                                <div class="container d-flex justify-content-evenly divOKCancel">
+                                        <button type="button" id="attQryRun" class="btn btn-primary btn-sm w-50 border-1 border-white">Run</button>
+                                        <button type="button" id="attQryClear" class="btn btn-secondary btn-sm w-50 border-1 border-white">Clear</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+        <div class="attListDivTest" id="attListDivTest">
+                <div class="attTable" id="attTable">
+                        <table id="attQryTable" class="table table-bordered table-hover table-sm border-dark">
+                        </table>
+                </div>
+        </div>
+
+        <div class="spQueryDiv" id="spQueryDiv">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan" class="text-light navbarSpan">Spatial
+                                Query</span></nav>
+
+                <div class="container">
+                        <form>
+                                <div class="form-group">
+                                        <label for="selectLayer">Select features of</label>
+                                        <select name="buffSelectLayer" id="buffSelectLayer" class="form-select">
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                        <label for="qryType">that are</label>
+                                        <select name="qryType" id="qryType" class="form-select">
+                                                <option value="withinDistance">Within Distance of</option>
+                                                <option value="intersecting">Intersecting</option>
+                                                <option value="completelyWithin">Completely Within</option>
+                                        </select>
+                                </div>
+                                <div id="bufferDiv" class="form-group bufferDiv">
+                                        <div id="bufferInput"
+                                                class="container d-flex justify-content-between ps-0 pe-0">
+                                                <input type="number" name="bufferDistance" id="bufferDistance"
+                                                        class="form-control ms-0 me-1" placeholder="1000">
+                                                <select name="distanceUnits" id="distanceUnits"
+                                                        class="form-select ms-1 me-0">
+                                                        <option value="meters">Meters</option>
+                                                        <option value="kilometers">Kilometers</option>
+                                                        <option value="feet">Feet</option>
+                                                        <option value="nautical miles">Nautical Miles</option>
+                                                </select>
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <label id="lblsrcCriteria" for="srcCriteria">from</label>
+                                        <div id="markerInput"
+                                                class="container d-flex justify-content-between ps-0 pe-0">
+                                                <select name="srcCriteria" id="srcCriteria" class="form-select me-2">
+                                                        <option id="pointMarker" value="pointMarker">Point Marker
+                                                        </option>
+                                                        <option id="lineMarker" value="lineMarker">Line Marker</option>
+                                                        <option id="polygonMarker" value="polygonMarker">Polygon Marker
+                                                        </option>
+                                                </select>
+                                                <button type="button" id="spUserInput" class="btn btn-warning"><i
+                                                                class="fa-solid fa-compass-drafting"></i></button>
+                                        </div>
+
+                                </div>
+                                <div id="spQryButtons" class="container d-flex justify-content-evenly divOKCancel">
+                                        <button type="button" id="spQryRun" class="btn btn-primary btn-sm w-50 border-1 border-white">Run</button>
+                                        <button type="button" id="spQryClear" class="btn btn-secondary btn-sm w-50 border-1 border-white">Clear</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+
+        <div class="settingsDiv" id="settingsDiv" style="display: none;">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan"
+                                class="text-light navbarSpan">Settings</span>
+                </nav>
+                <div class="container">
+                        <form>
+                                <div class="form-group">
+                                        <label for="editingLayer">Select Editing Layer</label>
+                                        <select name="editingLayer" id="editingLayer" class="form-select">
+                                        </select>
+                                </div>
+                        </form>
+                </div>
+        </div>
+
+        <div class="attributeUpdateDiv" id="attributeUpdateDiv">
+                <nav class="navbar bg-opacity-50 ps-2 py-0"><span id="rightSpan"
+                                class="text-light navbarSpan">Attribute</span></nav>
+                <div id="attributeUpdateTableDiv">
+                        <table id="attributeUpdateTable" class="table table-bordered table-hover table-sm border-dark">
+                        </table>
+                </div>
+                <div id="attributeUpdateFooterDiv" class="container d-flex justify-content-evenly m-1 p-0"
+                        style="background-color: white;">
+                        <button type="button" id="attributeUpdateSaveButton"
+                                class="btn btn-primary btn-sm w-50 border-1 border-white">Save</button>
+                        <button type="button" id="attributeUpdateCancelButton"
+                                class="btn btn-secondary btn-sm w-50 border-1 border-white me-2">Cancel</button>
+                </div>
+        </div>
+
+        <div class="alert alert-success  alert-dismissible fade show position-absolute" role="alert">
+                <i id="alertIcon"></i> <span id="alertSpan"></span>
+                <button type="button" class="btn-close" aria-label="Close" onclick="hideAlert()">x</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="wms_layer_modal" tabindex="-1" aria-labelledby="wms_layer_modal_Label"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                        <div class="modal-content">
+                                <div class="modal-header bg-primary bg-opacity-50">
+                                        <h1 class="modal-title fs-5" id="wms_layer_modal_Label">Add WMS Layer</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                        <table id="table_wms_layers" class="table table-bordered table-sm "></table>
+                                </div>
+                                <div class="modal-footer bg-light">
+                                        <button id="addWMSLayer" type="button" class="btn btn-primary">Add</button>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <script src="resources/bootstrap/js/bootstrap.js"></script>
+        <script src="resources/jQuery/jquery-3.6.0.min.js"></script>
+        <script src="resources/jQuery/jquery-ui.js"></script>
+        <!-- <script src="resources/jsPDF/jspdf.umd.min.js"></script> -->
+        <!-- https://github.com/MrRio/jsPDF -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <!-- filesaver-js -->
+        <!-- <script type="text/javascript" src="https://cdn.rawgit.com/eligrey/FileSaver.js/aa9f4e0e/FileSaver.min.js"></script> -->
+        <script src="resources/proj4js/proj4.js"></script>
+        <script src="resources/proj4js/proj4-src.js"></script>
+        <script src="resources/ol/ol.js"></script>
+        <script src="resources/ol/ol-ext.js"></script>
+        <script src="resources/layerswitcher/ol-layerswitcher.js"></script>
+        <script src="config.js"></script>
+        <script src="map.js"></script>
+</body>
+
+</html>

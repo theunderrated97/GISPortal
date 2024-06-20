@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS public.admin_users(
+    userid character varying(6) COLLATE pg_catalog."default" NOT NULL,    username character varying COLLATE pg_catalog."default",
+    password character varying COLLATE pg_catalog."default",    layers character varying COLLATE pg_catalog."default",
+    applications character varying COLLATE pg_catalog."default",    CONSTRAINT admin_users_pkey PRIMARY KEY (userid)
+)

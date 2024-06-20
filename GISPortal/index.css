@@ -1,0 +1,147 @@
+:root {
+    --color: '';
+    /*the base color*/
+    --l: '';
+    /*the initial lightness*/
+
+    --color-primary: hsl(var(--color), var(--l));
+    --color-primary-darker: hsl(var(--color), calc(var(--l) - 15%));
+    --color-primary-darkest: hsl(var(--color), calc(var(--l) - 25%));
+    --color-primary-lighter: hsl(var(--color), calc(var(--l) + 15%));
+    --color-primary-lightest: hsl(var(--color), calc(var(--l) + 40%));
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('./resources/images/physical-world-map.jpg');
+    background-size: cover;
+}
+
+.loginContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 26rem;
+    top: 20px;
+    left: 50%;
+    margin-left: -13rem;
+    justify-content: space-evenly;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.btnLogin {
+    background-color: var(--color-primary-darker);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btnLogin:hover{
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 48px 0;
+}
+
+img.avatar {
+    width: 35%;
+    border-radius: 50%;
+}
+
+.alert {
+    opacity: 0;
+    left: 50%;
+    transform: translate(-50%, 50px);
+    top: 10px;
+    z-index: 100;
+    min-width: 300px;
+}
+.btn-close {
+    background-size: 0.5em !important;
+    padding: 0 !important;
+    background: rgba(0,0,0,0);
+    border: 0px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: smaller;
+    color: grey;
+}
+
+.btnChangePassword{
+    border: 0;
+    background: rgba(255,255,255,0);
+    float: right;
+    color: grey;
+    font-size: small;
+}
+
+.btnChangePassword:hover{
+    color: black;
+}
+
+.btnUserAdmin {
+    border: 0;
+    background: rgba(255,255,255,0);
+    float: left;
+    color: grey;
+    font-size: small;
+}
+
+.btnUserAdmin:hover{
+    color: black;
+}
+
+
+.btnSaveCancel {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0px;
+    padding: 10px 0px;
+}
+
+.lblUserManagement{
+    display: inline-block;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.btn-group {
+    width: 100%;
+    margin: 0px 0px 16px 0px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+}
+
+.selectElement {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 0px 0px 16px 0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 6px 20px;
+    margin: 0px 0px 16px 0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+}

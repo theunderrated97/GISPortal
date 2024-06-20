@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise GIS Portal</title>
+
+    <script>
+        if (window.sessionStorage.getItem('status') == "loggedIn") {
+            window.location.replace(window.location.href.replace("login.html", "bsmap.html"));
+        }
+    </script>
+
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/bootstrap-multiselect/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="resources/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="resources/ol/ol.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon " href="resources\images\ad.png">
+</head>
+
+<body>
+    <div id="loginContainer" class="loginContainer">
+        <div id="loginForm" class="loginForm">
+            <div class="imgcontainer">
+                <img src="resources/images/ad.png" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label class="lblUserManagement" for="uname">Username</label>
+                <input type="text" name="uname" id="uname" required>
+
+                <label class="lblUserManagement" for="psw">Password</label>
+                <input type="password" name="psw" id="psw" required>
+
+                <button id="btnLogin" class="btnLogin" onclick="validateLogin()">Login</button>
+            </div>
+            <div>
+                <!-- <button id="btnUserAdmin" class="btnUserAdmin" onclick="UserAdministration()">User Admin</button> -->
+                <button id="btnChangePassword" class="btnChangePassword" onclick="changePassword()">Change
+                    Password</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divChangePasswordContainer" class="loginContainer" style="display: none;">
+        <h3 class="m-3 text-center fw-bold">Change Password</h3>
+        <div id="divChangePasswordForm" class="loginForm">
+            <div class="container">
+                <label for="changePswUname">Username</label><br>
+                <input type="text" name="changePswUname" id="changePswUname" required><br>
+
+                <label for="existingPsw">Existing Password</label><br>
+                <input type="password" name="existingPsw" id="existingPsw" required><br>
+
+                <label for="newPsw">Enter New Password</label><br>
+                <input type="password" name="newPsw" id="newPsw" required><br>
+
+                <label for="reNewPsw">Re-enter New Password</label><br>
+                <input type="password" name="reNewPsw" id="reNewPsw" required><br>
+
+                <button id="btnLogin" class="btnLogin" onclick="validateAndChangePassword()">Change
+                    Password</button><br>
+                <button id="btnCancelChangePassword" class="btnChangePassword"
+                    onclick="CancelChangePassword()">Back</button><br>
+            </div>
+        </div>
+    </div>
+    <div id="divUserManagementContainer" class="loginContainer" style="display: none;">
+        <h3 class="m-4 text-center fw-bold">User Management</h3>
+        <div id="divUserManagementForm" class="loginForm">
+            <div class="container">
+                <label class="lblUserManagement" for="action">Action</label><br>
+                <select class="selectElement" id="selectElement" name="action">
+                    <option value="addUser">Create User</option>
+                    <option value="modifyUser">Modify User</option>
+                    <option value="deleteUser">Delete User</option>
+                    <option value="resetPassword">Reset Password</option>
+                </select>
+            </div>
+        </div>
+        <div id="userManagement">
+            <div id="addUser" class="container">
+                <label class="lblUserManagement" for="userID">User ID</label>
+                <input type="text" name="userID" id="userID" required>
+
+                <label class="lblUserManagement" for="userName">User Name</label>
+                <input type="text" name="userName" id="userName" required>
+
+                <label class="lblUserManagement" for="layers">Layers</label>
+                <select id="selectLayers" name="layers" multiple="multiple">
+                </select>
+
+                <label class="lblUserManagement" for="apps">Applications</label>
+                <select id="selectApps" name="apps" multiple="multiple">
+                </select>
+                <div id="divSaveCancel" class="btnSaveCancel">
+                    <button id="btnAddUser" class="btnAddUser btn btn-primary btn-sm w-50 border-1 border-white"
+                        onclick="addUser()">Add</button>
+                    <button id="btnCancel" class="btnCancel btn btn-secondary btn-sm w-50 border-1 border-white me-2"
+                        onclick="cancelAddUser()">Cancel</button>
+                </div>
+                <button id="btnBackCreateUser" class="btnChangePassword"
+                    onclick="backUserManagement()">Back</button><br>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modifyUser" class="container" style="display: none;">
+        <label class="lblUserManagement" for="modifyUserID">User ID</label><br>
+        <select class="selectElement" id="modifyUserID" name="modifyUserID">
+            <option value="blank"></option>
+        </select>
+
+        <label class="lblUserManagement" for="modifyUserName">User Name</label>
+        <input type="text" name="modifyUserName" id="modifyUserName" required>
+
+        <label class="lblUserManagement" for="modifyLayers">Layers</label>
+        <select id="modifyLayers" name="modifyLayers" multiple="multiple">
+        </select>
+
+        <label class="lblUserManagement" for="modifyApps">Applications</label>
+        <select id="modifyApps" name="modifyApps" multiple="multiple">
+        </select>
+
+
+        <div id="divModifySaveCancel" class="btnSaveCancel">
+            <button id="btnModifyUser" class="btnAddUser btn btn-primary btn-sm w-50 border-1 border-white"
+                onclick="modifyUser()">Modify</button>
+            <button id="btnModifyCancel" class="btnCancel btn btn-secondary btn-sm w-50 border-1 border-white me-2"
+                onclick="cancelModifyUser()">Cancel</button>
+        </div>
+        <button id="btnBackModifyUser" class="btnChangePassword" onclick="backUserManagement()">Back</button><br>
+    </div>
+    <div id="deleteUser" class="container" style="display: none;">
+        <label class="lblUserManagement" for="deleteUserID">User ID</label><br>
+        <select class="selectElement" id="deleteUserID" name="deleteUserID">
+            <option value="blank"></option>
+        </select>
+
+        <label class="lblUserManagement" for="deleteUserName">User Name</label><br>
+        <input type="text" name="deleteUserName" id="deleteUserName" disabled><br>
+
+        <label class="lblUserManagement" for="deleteLayers">Layers</label><br>
+        <select id="deleteLayers" name="deleteLayers" multiple="multiple" disabled>
+        </select>
+
+        <label class="lblUserManagement" for="deleteApps">Applications</label><br>
+        <select id="deleteApps" name="deleteApps" multiple="multiple" disabled>
+        </select>
+
+        <div id="deleteSaveCancel" class="btnSaveCancel">
+            <button id="btnDeleteUser" class="btnAddUser btn btn-primary btn-sm w-50 border-1 border-white"
+                onclick="deleteUser()">Delete</button><br>
+            <button id="btnDeleteCancel" class="btnCancel btn btn-secondary btn-sm w-50 border-1 border-white me-2"
+                onclick="cancelDeleteUser()">Cancel</button><br>
+        </div>
+        <button id="btnBackDeleteUser" class="btnChangePassword" onclick="backUserManagement()">Back</button><br>
+    </div>
+
+    <div id="resetUser" class="container" style="display: none;">
+        <label class="lblUserManagement" for="resetUserID">User ID</label><br>
+        <select class="selectElement" id="resetUserID" name="resetUserID">
+            <option value="blank"></option>
+        </select>
+
+        <label class="lblUserManagement" for="resetUserName">User Name</label><br>
+        <input type="text" name="resetUserName" id="resetUserName" required disabled><br>
+
+        <label class="lblUserManagement" for="resetLayers">Layers</label><br>
+        <select id="resetLayers" name="resetLayers" multiple="multiple" disabled>
+        </select>
+
+        <label class="lblUserManagement" for="resetApps">Applications</label><br>
+        <select id="resetApps" name="resetApps" multiple="multiple" disabled>
+        </select>
+
+        <div id="resetSaveCancel" class="btnSaveCancel">
+            <button id="btnresetUser" class="btnAddUser btn btn-primary btn-sm w-50 border-1 border-white"
+                onclick="resetUser()">Reset</button><br>
+            <button id="btnresetCancel" class="btnCancel btn btn-secondary btn-sm w-50 border-1 border-white me-2"
+                onclick="cancelResetUser()">Cancel</button><br>
+        </div>
+        <button id="btnBackResetUser" class="btnChangePassword" onclick="backUserManagement()">Back</button><br>
+    </div>
+
+    <div class="alert alert-dismissible fade show position-absolute" role="alert">
+        <i id="alertIcon"></i> <span id="alertSpan"></span>
+        <button type="button" class="btn-close" aria-label="Close" onclick="hideAlert()">X</button>
+    </div>
+
+    <script src="resources/ol/ol.js"></script>
+    <script src="resources/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="resources/jQuery/jquery-ui.js"></script>
+    <script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="resources/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+    <script src="config.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

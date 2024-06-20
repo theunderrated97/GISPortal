@@ -1,0 +1,297 @@
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+/* start : making background white for fullscreen */
+html,
+*:fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+    background-color: white !important;
+    z-index: 1;
+}
+
+::backdrop {
+    z-index: 0;
+    background-color: white !important;
+}
+
+/* end : making background white for fullscreen */
+
+/* start : layer switcher adjustments */
+.layer-switcher ul {
+    margin: 0.5em 0.4em;
+}
+
+.layer-switcher input {
+    margin: 3px 0px;
+}
+
+/* end : layer switcher adjustments */
+
+#map {
+    height: calc(100vh - 40px);
+}
+
+#bottom {
+    height: 150px;
+}
+
+/* start : mouseposition styling */
+.mousePosition {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bolder;
+    text-shadow: -2px 0 #fff, 0 2px #fff, 2px 0 #fff, 0 -2px #fff;
+}
+
+/* end : mouseposition styling */
+
+/* start : scalebar styling */
+.ol-scale-bar {
+    left: 5px;
+    bottom: 5px;
+}
+
+.ol-scale-text {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* end : scalebar styling */
+
+/* start : dragbox for zoom-in and zoom-out */
+.ol-dragbox {
+    border: 2px dashed grey;
+    background-color: rgba(200, 200, 200, 0.6);
+}
+
+/* end : dragbox for zoom-in and zoom-out */
+
+.navbar {
+    height: 40px;
+}
+
+.btnStyle {
+    margin: 0px 2px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.clicked {
+    color: red;
+}
+
+.fa-lg {
+    vertical-align: -.1em;
+}
+
+.input_search {
+    height: 30px;
+}
+
+#logout {
+    margin-left: auto;
+}
+
+.footerDiv {
+    height: 40px;
+}
+
+#nxtBtn {
+    background: transparent;
+    border: 0px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+#preBtn {
+    background: transparent;
+    border: 0px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.form-group {
+    margin: 15px 0;
+}
+
+#spUserInput.clicked {
+    background-color: rgb(230, 107, 107);
+    color: white;
+}
+
+.alert {
+    opacity: 0;
+    left: 50%;
+    transform: translate(-50%, 50px);
+    top: 10px;
+    z-index: 100;
+    min-width: 300px;
+    display: none;
+}
+
+.btn-close {
+    background-size: 0.5em !important;
+    padding: 0 !important;
+    background: rgba(0,0,0,0);
+    border: 0px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: smaller;
+    color: grey;
+}
+
+#editingTools {
+    display: none;
+}
+
+#attributeUpdateTableDiv {
+    border-collapse: collapse;
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+.liveDataDiv {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    min-width: 500px;
+    max-height: 250px;
+    background-color: rgba(255, 255, 255);
+    font-size: 14px;
+    border-radius: 0px 0px 3px 3px;
+    border-left-width: 5px;
+    overflow: auto;
+}
+
+#assetSearchTableID td:nth-child(2):hover {
+    font-weight: bolder;
+    color: red;
+}
+
+#assetSearchTableID td,
+th {
+    background-color: white;
+    padding: 3px;
+}
+
+
+
+/* end : live search styling */
+
+/* for keeping table header fixed while scrolling */
+table th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* start : Measure styling */
+.ol-tooltip {
+    position: relative;
+    background: #000;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.8;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.ol-tooltip-measure {
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+.ol-tooltip-static {
+    background-color: #ffcc33;
+    color: black;
+    border: 1px solid white;
+    opacity: 0.9;
+}
+
+.ol-tooltip-measure:before,
+.ol-tooltip-static:before {
+    border-top: 6px solid black;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+}
+
+.ol-tooltip-static:before {
+    border-top-color: #ffcc33;
+}
+
+/* end : Measure styling */
+
+.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    height: 50vh;
+    overflow-y: auto;
+}
+
+.modal {
+    --bs-modal-padding: 0;
+}
+
+#table_wms_layers th {
+    background: white;
+}
+
+#featureInfoTableDiv {
+    overflow-y: auto;
+}
+
+.navbarSpan {
+    font-size: 3vmin !important;
+}
+
+#divLegendGraphics p {
+    margin-bottom: 0px !important;
+    margin-left: 5px !important;
+}
+
+#divLegendGraphics img {
+    margin-bottom: 10px !important;
+    margin-left: 5px !important;
+}
+
+.ol-print {
+    display: none !important;
+}
+
+.divOKCancel {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}

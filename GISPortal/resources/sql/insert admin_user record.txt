@@ -1,0 +1,2 @@
+INSERT INTO public.admin_users( userid, username, password, layers, applications)
+ VALUES ('admn01', 'Admin 01', 'gis@1234', 'admin', 'admin');
